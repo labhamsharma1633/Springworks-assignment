@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Campaign Cadence Engine</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="app-header">
+    <h1>Campaign Cadence Engine</h1>
+    <div class="tooling-controls">
+      <a id="specLink" href="/spec" target="_blank" title="Tooling: view app spec (not part of the app)">📋 Spec</a>
+      <a id="apiCollectionLink" href="/openapi.json" target="_blank" title="Tooling: OpenAPI collection (not part of the app)">📥 API collection</a>
+      <button type="button" id="resetBtn" title="Tooling: resets sample data (not part of the app)">↺ Reset data</button>
+    </div>
+  </div>
+
+  <div id="app-section">
+    <section class="card">
+    <h2>Build Campaign</h2>
+    <form id="campaignForm">
+      <label>Campaign name <input type="text" id="campaignName" placeholder="e.g. Standard Reference Check"></label>
+      <div id="stepsList"></div>
+      <button type="button" id="addStepBtn">+ Add Step</button>
+      <button type="submit">Creat Campaign</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Enroll Candidate</h2>
+    <form id="enrollForm">
+      <label>Campaign
+        <select id="campaignSelect"></select>
+      </label>
+      <label>Candidate
+        <select id="candidateSelect"></select>
+      </label>
+      <label>Enrolled On <input type="date" id="enrolledOn" value="2026-07-24"></label>
+      <button type="submit">Enroll</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Enrollments</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Campaign</th><th>Candidate</th><th>Enrolled On</th><th>Replied</th><th></th><th></th></tr></thead>
+      <tbody id="enrollmentRows"></tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Schedule</h2>
+    <div id="scheduleView">Select "View" on an enrollment above.</div>
+  </section>
+  </div>
+</div>
+<script src="app.js"></script>
+<script>window.SV_APP_ID='15';window.SV_SCOREBOARD='https://sv-qa-scoreboard.onrender.com';</script>
+<script src="report-widget.js"></script>
+</body>
+</html>
