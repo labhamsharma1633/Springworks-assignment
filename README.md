@@ -1,4 +1,4 @@
-# Campaign Cadence Engine — Automated Test Suite & Bug Fixes
+# Campaign Cadence Engine  Automated Test Suite & Bug Fixes
 
 This repository contains the source code, automated test suite, and bug fixes for **Campaign Cadence Engine (App 15)**.
 
@@ -6,7 +6,7 @@ As part of **Phase 2**, automated tests have been implemented using **Jest** and
 
 ---
 
-## 🛠️ Tech Stack & Tools Used
+##  Tech Stack & Tools Used
 - **Test Runner / Framework**: [Jest](https://jestjs.io/) (v30)
 - **API Testing / HTTP Assertions**: [Supertest](https://github.com/ladjs/supertest) (v7)
 - **Runtime Environment**: Node.js / CommonJS
@@ -14,7 +14,7 @@ As part of **Phase 2**, automated tests have been implemented using **Jest** and
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Install Dependencies
 ```bash
@@ -34,7 +34,7 @@ npm test
 
 ---
 
-## 📋 Bug Reports, Test Coverage & Fixes
+##  Bug Reports, Test Coverage & Fixes
 
 The test suite in [`tests/bugs.test.js`](./tests/bugs.test.js) verifies and validates all 7 confirmed bugs:
 
@@ -50,7 +50,7 @@ The test suite in [`tests/bugs.test.js`](./tests/bugs.test.js) verifies and vali
 
 ---
 
-## 🧪 Test Execution Results
+##  Test Execution Results
 Running `npm test` executes the complete test suite:
 
 ```text
