@@ -57,8 +57,19 @@ async function loadEnrollments() {
   });
 }
 
+function formatDate(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string' || !dateStr.includes('-')) return dateStr;
+  const [y, m, d] = dateStr.split('-');
+  return `${d}-${m}-${y}`;
+}
+
 async function viewSchedule(enrollmentId) {
   const res = await fetch(`/api/schedule/${enrollmentId}`);
+  if (!res.ok) {
+    const el = document.getElementById('scheduleView');
+    el.textContent = 'Enrollment not found.';
+    return;
+  }
   const body = await res.json();
   const el = document.getElementById('scheduleView');
   if (!body) { el.textContent = 'Enrollment not found.'; return; }
@@ -68,11 +79,11 @@ async function viewSchedule(enrollmentId) {
     let label = 'Upcoming';
     if (body.nextDue && s.date === body.nextDue.date) { badgeClass = 'badge-next'; label = 'Next Due'; }
     else if (s.date < today) { badgeClass = 'badge-past'; label = 'Upcoming'; }
-    return `<tr><td>${s.subject}</td><td>${s.date}</td><td><span class="badge ${badgeClass}">${label}</span></td></tr>`;
+    return `<tr><td>${s.subject}</td><td>${formatDate(s.date)}</td><td><span class="badge ${badgeClass}">${label}</span></td></tr>`;
   }).join('');
   el.innerHTML = `
-    <p>Replied: ${body.replied ? `Yes (on ${body.repliedOn})` : 'No'}</p>
-    <p>Next due: ${body.nextDue ? body.nextDue.date : 'None'}</p>
+    <p>Replied: ${body.replied ? `Yes (on ${formatDate(body.repliedOn)})` : 'No'}</p>
+    <p>Next due: ${body.nextDue ? formatDate(body.nextDue.date) : 'None'}</p>
     <table><thead><tr><th>Subject</th><th>Date</th><th>Status</th></tr></thead><tbody>${rowsHtml}</tbody></table>
   `;
 }

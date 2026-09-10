@@ -59,10 +59,9 @@ function todayStr() {
 }
 
 function addDays(dateStr, n) {
-  const [y, m, d] = dateStr.split('-').map(Number);
-  const shifted = n + 1;
-  const newDay = d + shifted;
-  return `${y}-${String(m).padStart(2, '0')}-${String(newDay).padStart(2, '0')}`;
+  const date = new Date(dateStr + 'T00:00:00Z');
+  date.setUTCDate(date.getUTCDate() + n);
+  return date.toISOString().slice(0, 10);
 }
 
 app.get('/api/candidates', (req, res) => res.json(req.store.candidates));
@@ -75,8 +74,8 @@ app.post('/api/campaigns', (req, res) => {
     return res.status(400).json({ error: 'name and at least one step are required' });
   }
   for (const s of steps) {
-    if (typeof s.dayOffset !== 'number' || !s.subject) {
-      return res.status(400).json({ error: 'each step needs a numeric dayOffset and a non-empty subject' });
+    if (typeof s.dayOffset !== 'number' || s.dayOffset < 0 || !s.subject) {
+      return res.status(400).json({ error: 'each step needs a non-negative numeric dayOffset and a non-empty subject' });
     }
   }
   const campaign = { id: req.store.nextCampaignId++, name, steps };
@@ -91,6 +90,15 @@ app.post('/api/enroll', (req, res) => {
   if (!candidateId || !enrolledOn) {
     return res.status(400).json({ error: 'candidateId and enrolledOn are required' });
   }
+  if (enrolledOn > todayStr()) {
+    return res.status(400).json({ error: 'enrolledOn date cannot be in the future' });
+  }
+  const existingActive = req.store.enrollments.find(
+    (e) => e.campaignId === campaign.id && e.candidateId === candidateId && !e.replied
+  );
+  if (existingActive) {
+    return res.status(400).json({ error: 'Candidate already has an active enrollment in this campaign' });
+  }
 
   const enrollment = {
     id: req.store.nextEnrollmentId++,
@@ -101,13 +109,13 @@ app.post('/api/enroll', (req, res) => {
     repliedOn: null,
   };
   req.store.enrollments.push(enrollment);
-  res.status(200).json(enrollment);
+  res.status(201).json(enrollment);
 });
 
 app.get('/api/schedule/:enrollmentId', (req, res) => {
   const enrollment = req.store.enrollments.find((e) => e.id === Number(req.params.enrollmentId));
   if (!enrollment) {
-    return res.status(200).json(null);
+    return res.status(404).json({ error: 'Enrollment not found' });
   }
   const campaign = req.store.campaigns.find((c) => c.id === enrollment.campaignId);
 
