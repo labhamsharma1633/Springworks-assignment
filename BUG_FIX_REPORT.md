@@ -4,7 +4,7 @@ This report details the root cause, resolution, code changes, and verification f
 
 ---
 
-## 📑 Summary of Resolved Bugs
+##  Summary of Resolved Bugs
 
 | Bug # | Defect Category | Affected Endpoint / UI | Summary of Issue | Status |
 |---|---|---|---|---|
@@ -18,7 +18,7 @@ This report details the root cause, resolution, code changes, and verification f
 
 ---
 
-## 🔍 Detailed Bug Fix Breakdown
+##  Detailed Bug Fix Breakdown
 
 ### 1. POST /api/enroll — Wrong Status Code
 - **Issue**: Endpoint returned HTTP `200 OK` on successful resource creation.
@@ -134,7 +134,7 @@ This report details the root cause, resolution, code changes, and verification f
 
 ---
 
-## 🧪 Verification & Test Results
+##  Verification & Test Results
 
 Run all automated tests:
 ```bash
